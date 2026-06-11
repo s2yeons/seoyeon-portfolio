@@ -3,6 +3,7 @@ import Activities from "@/components/Activities";
 import Contact from "@/components/Contact";
 import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
+import OpenSource from "@/components/OpenSource";
 import Projects from "@/components/Projects";
 import SideProjects from "@/components/SideProjects";
 import Skills from "@/components/Skills";
@@ -19,6 +20,7 @@ export default function Home() {
         <Timeline />
         <Projects />
         <SideProjects />
+        <OpenSource />
         <Activities />
         <Contact />
       </main>

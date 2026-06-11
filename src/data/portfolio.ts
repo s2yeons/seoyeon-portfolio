@@ -274,11 +274,7 @@ export type SideProject = {
   period: string;
   summary: string;
   description: string;
-  highlight: {
-    title: string;
-    body: string;
-    link?: { label: string; href: string };
-  };
+  stack?: string[];
 };
 
 export const sideProjects: SideProject[] = [
@@ -288,16 +284,57 @@ export const sideProjects: SideProject[] = [
     summary: "교내 프로젝트 통합 관리 플랫폼",
     description:
       "교내 프로젝트를 통합적으로 관리하고, 학생들이 직접 프로젝트를 등록하고 운영할 수 있도록 지원하는 플랫폼입니다. 자율적인 프로젝트 참여와 협업을 활성화하는 것을 목표로 합니다.",
-    highlight: {
-      title: "오픈소스 이슈 분석 및 해결안 제시 — react-hook-form",
-      body: "react-hook-form 7.71.0에서 발생한 Controller 충돌 버그를 재현하고, 7.70.0과의 diff를 추적해 새로 분리된 HookFormControlContext가 메모이제이션되지 않아 Context 업데이트 타이밍이 어긋나는 점을 원인으로 분석했습니다. useMemo를 적용해 참조 안정성을 보장하는 해결안을 제안하고 이슈에 공유했습니다.",
-      link: {
-        label: "Issue #13272",
-        href: "https://github.com/react-hook-form/react-hook-form/issues/13272",
-      },
-    },
+    stack: ["React", "TypeScript", "Jotai", "TanStack Query"],
   },
 ];
+
+/* ---------- Open Source Contribution ---------- */
+export type OpenSource = {
+  library: string;
+  version: string;
+  title: string;
+  summary: string;
+  link: { label: string; href: string };
+  steps: { label: string; body: string }[];
+  code: string;
+};
+
+export const openSource: OpenSource = {
+  library: "react-hook-form",
+  version: "v7.71.0",
+  title: "Controller 충돌 버그 분석 및 해결안 제시",
+  summary:
+    "react-hook-form 7.71.0에서 발생한 Controller 충돌 버그를 재현하고, 라이브러리 내부 Context 구조를 분석해 근본 원인을 찾아 해결안을 제안했습니다.",
+  link: {
+    label: "Issue #13272",
+    href: "https://github.com/react-hook-form/react-hook-form/issues/13272",
+  },
+  steps: [
+    {
+      label: "문제 상황",
+      body: "7.71.0 업데이트 이후 React 19 환경에서 Jotai·TanStack Query를 함께 사용하는 비동기 상태 업데이트 상황에서 Controller 컴포넌트 간 충돌 에러가 발생했습니다. 이전 버전 7.70.0에서는 정상 동작하던 코드였습니다.",
+    },
+    {
+      label: "분석 과정",
+      body: "7.70.0과 7.71.0의 diff를 비교하며 변경 지점을 추적했습니다. Context 구조 관련 파일을 중심으로 살펴보던 중, 성능 최적화를 위해 Context가 두 개로 분리된 커밋을 확인하고 렌더링 흐름에 미치는 영향을 코드 레벨에서 분석했습니다.",
+    },
+    {
+      label: "원인",
+      body: "기존 HookFormContext는 useMemo로 메모이제이션되고 있었지만, 새로 분리된 HookFormControlContext는 메모이제이션 없이 전달되고 있었습니다. 이로 인해 FormProvider가 동적으로 교체될 때 두 Context의 업데이트 타이밍이 어긋나 렌더링 중 상태 업데이트가 발생하면서 충돌이 일어났습니다.",
+    },
+    {
+      label: "해결안",
+      body: "HookFormControlContext에도 useMemo를 적용해 Context 값의 참조 안정성을 보장하는 방법을 제안했습니다. FormProvider 교체 상황에서도 Context 간 업데이트 타이밍을 일관되게 유지할 수 있습니다.",
+    },
+    {
+      label: "검토",
+      body: "재현 코드에 수정안을 적용해 동일한 에러가 발생하지 않음을 확인했습니다. 분석 과정과 해결안을 이슈에 공유했고, 다른 개발자로부터 관련 이슈와 연결될 수 있다는 피드백을 받으며 방향성을 검증했습니다.",
+    },
+  ],
+  code: `<HookFormControlContext.Provider
+  value={React.useMemo(() => control, [control])}
+>`,
+};
 
 export const activities = [
   {

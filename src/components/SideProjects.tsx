@@ -8,8 +8,8 @@ export default function SideProjects() {
       <div className="mx-auto max-w-5xl">
         <SectionHeading
           eyebrow="Side Project"
-          title="문제를 끝까지 파고듭니다"
-          description="기능 구현을 넘어, 라이브러리 내부 동작까지 분석하며 문제의 근본 원인을 찾습니다."
+          title="자율적으로 만든 프로젝트"
+          description="필요한 도구를 직접 기획하고 만들며 자율적인 협업 문화를 실험했습니다."
         />
 
         <div className="space-y-8">
@@ -34,25 +34,18 @@ export default function SideProjects() {
                   {project.description}
                 </p>
 
-                <div className="mt-6 rounded-2xl border border-blossom-100 bg-blossom-50/50 p-6">
-                  <h4 className="text-base font-bold text-foreground">
-                    {project.highlight.title}
-                  </h4>
-                  <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
-                    {project.highlight.body}
-                  </p>
-                  {project.highlight.link && (
-                    <a
-                      href={project.highlight.link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-blossom-600 transition-colors hover:text-blossom-500"
-                    >
-                      {project.highlight.link.label}
-                      <span aria-hidden>↗</span>
-                    </a>
-                  )}
-                </div>
+                {project.stack && (
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {project.stack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md bg-foreground/[0.04] px-2.5 py-1 text-xs font-semibold text-ink-600"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </article>
             </Reveal>
           ))}
